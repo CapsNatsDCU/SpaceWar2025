@@ -1,6 +1,8 @@
 package entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.geom.AffineTransform;
 import java.util.Random;
 import java.awt.image.BufferedImage;
@@ -23,12 +25,14 @@ public class Ship extends Entity {
 	public Ship(GamePanel gp, KeyHandler keyH) {
 	    this.gp = gp;
 	    this.keyH = keyH;
-	    worldX = gp.screenWidth / 2;
-	    worldY = gp.screenHeight / 2;
+	    worldX = 0; //gp.screenWidth / 2;
+	    worldY = 0; //gp.screenHeight / 2;
 	    heading = 0.0;
 	    velo = 1.0;
 	    hyperDriveCooldown = 0;
 	    gunCoolDown = 0;
+	    solidAreaDefaultX = 14;
+	    solidAreaDefaultY = 10;
 	    getShipImage();
 	}
 	
@@ -58,6 +62,15 @@ public class Ship extends Entity {
 	    transform.translate(-25, -25);  // Move it back to the top-left corner
 		
 	    g2.drawImage(image, transform, null);
+	    
+	    solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 20, 26);
+	    if (solidArea != null) {
+	    	g2.setColor(Color.red);
+	    	g2.fill(solidArea); // Fills the rectangle
+	    	g2.draw(solidArea);
+	    } else {
+	        System.out.println("Solid area is null!");
+	    }
 	}
 	
 	public void getShipImage() {
