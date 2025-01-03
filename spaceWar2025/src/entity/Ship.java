@@ -150,7 +150,7 @@ public class Ship extends Entity {
 	    solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 26, 26);
 	    //Collioion
 	    if(gp.cc.shipCollision(this)) {
-	    	System.out.println("Collision");
+	    	//System.out.println("Collision");
 	    }
 		}
 }

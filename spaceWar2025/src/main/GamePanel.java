@@ -70,6 +70,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	
 	public void update() {
+		cc.astroidCollision();
 		ship.update();
 		for(int i = 0; i < t.length; i++) {
 			if(t[i] != null) {
@@ -86,10 +87,10 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public void setupGame() {
 		Random rand = new Random();
-		a[0] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0);		
-		a[1] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 1);		
-		a[2] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2);		
-		a[3] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2);		
+		a[0] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0, 0);		
+		a[1] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 1, 1);		
+		a[2] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2, 2);		
+		a[3] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2, 3);		
 	}
 	
 	public void startGameThread() {

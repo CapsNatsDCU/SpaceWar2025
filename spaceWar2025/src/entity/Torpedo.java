@@ -18,7 +18,6 @@ public class Torpedo extends Entity{
 	
 	
 	public Torpedo(int x, int y, double startingHeading, GamePanel gp) {
-		System.out.println("new Torpedo");
 		this.gp = gp;
 		this.worldX = x; 
 		worldY = y;
@@ -27,6 +26,7 @@ public class Torpedo extends Entity{
 		life = 80;
 	    solidAreaDefaultX = 24;
 	    solidAreaDefaultY = 23;
+	    solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 3, 3);
 		try {
 			image = ImageIO.read(getClass().getResourceAsStream("/Torpedo/torpedo.png"));
 		} catch (IOException e) {

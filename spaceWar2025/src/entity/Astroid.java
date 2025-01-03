@@ -13,12 +13,14 @@ public class Astroid extends Entity{
 	BufferedImage image = null;
 	GamePanel gp;
 	int stage;
+	int index;
 	int s;
 	Random rand = new Random();
 	
-	public Astroid(GamePanel gp, int x, int y, int stage) {
+	public Astroid(GamePanel gp, int x, int y, int stage, int index) {
 		int v = 0;
 		this.gp = gp;
+		this.index = index;
 		worldX = x;
 		worldY = y;
 		this.stage = stage;
@@ -64,6 +66,24 @@ public class Astroid extends Entity{
 			g2.setColor(Color.blue);
 		}
 		g2.drawRect(worldX, worldY, gp.screenWidth / s , gp.screenWidth / s);
+	}
+	
+	public void stageChange() {
+		//do something
+		if(stage == 0) {
+			newAss(1);
+			newAss(1);
+		}
+		if (stage == 1) {
+			for(int i = 0; i < 2 + rand.nextInt(3); i++) {
+				newAss(2);
+			}
+		}
+		gp.a[index] = null;// will this crash??
+	}
+	
+	private void newAss(int stage) {
+		gp.a[gp.a.length - 1] = new Astroid(gp, worldX, worldY, stage, gp.a.length - 1);
 	}
 }
 
