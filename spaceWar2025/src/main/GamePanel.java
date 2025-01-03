@@ -40,7 +40,7 @@ public class GamePanel extends JPanel implements Runnable {
 	}
 	
 	public Ship ship = new Ship(this, keyH);
-	//public CollisionChecker cc = new CollisionChecker(this);
+	public CollisionChecker cc = new CollisionChecker(this);
 	//public AssetSetter aSetter = new AssetSetter(this);
 	//public Player player = new Player(this, keyH);
 	//public SuperObject obj[] = new SuperObject[10];
@@ -86,11 +86,10 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public void setupGame() {
 		Random rand = new Random();
-		//public Astroid(GamePanel gp, int x, int y, int stage)
 		a[0] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0);		
-		a[1] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0);		
-		a[2] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0);		
-		a[3] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0);		
+		a[1] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 1);		
+		a[2] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2);		
+		a[3] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2);		
 	}
 	
 	public void startGameThread() {

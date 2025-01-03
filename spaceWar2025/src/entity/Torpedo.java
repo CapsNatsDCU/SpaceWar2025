@@ -1,6 +1,8 @@
 package entity;
 
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -21,8 +23,10 @@ public class Torpedo extends Entity{
 		this.worldX = x; 
 		worldY = y;
 		heading = startingHeading;	
-		velo = 10.0;
-		life = 100;
+		velo = 14.0;
+		life = 80;
+	    solidAreaDefaultX = 24;
+	    solidAreaDefaultY = 23;
 		try {
 			image = ImageIO.read(getClass().getResourceAsStream("/Torpedo/torpedo.png"));
 		} catch (IOException e) {
@@ -34,6 +38,13 @@ public class Torpedo extends Entity{
 		if(life > 0) {
 			g2.drawImage(image, worldX, worldY, 50, 50, null);
 		}
+	    if (solidArea != null) {
+	    	g2.setColor(Color.red);
+	    	g2.fill(solidArea); // Fills the rectangle
+	    	g2.draw(solidArea);
+	    } else {
+	        System.out.println("Solid area is null!");
+	    }
 	}
 	
 	public void update() {
@@ -52,6 +63,8 @@ public class Torpedo extends Entity{
 		if (worldX > gp.screenWidth) { worldX = 0; }
 		if (worldY < 0) { worldY = gp.screenHeight; }
 		if (worldY > gp.screenHeight) { worldY = 0; }
+		
+		solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 3, 3);
 		
 	}
 

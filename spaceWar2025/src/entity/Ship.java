@@ -40,11 +40,11 @@ public class Ship extends Entity {
 		BufferedImage image = null;
 		
 		//pick the appropriate image
-		if (velo <= 1 || !keyH.thrustPressed) {
+		if (velo <= 2 || !keyH.thrustPressed) {
 		    image = noThrust;
-		} else if (velo > 1 && velo <= 2 && keyH.thrustPressed) {
-		    image = slow;
 		} else if (velo > 2 && velo <= 4 && keyH.thrustPressed) {
+		    image = slow;
+		} else if (velo > 4 && velo <= 6 && keyH.thrustPressed) {
 		    image = medium;
 		} else {
 		    image = fast;
@@ -63,7 +63,6 @@ public class Ship extends Entity {
 		
 	    g2.drawImage(image, transform, null);
 	    
-	    solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 20, 26);
 	    if (solidArea != null) {
 	    	g2.setColor(Color.red);
 	    	g2.fill(solidArea); // Fills the rectangle
@@ -87,22 +86,22 @@ public class Ship extends Entity {
 	public void update() {
 		// Accelerate when thrust is pressed
 		if (keyH.thrustPressed) {
-			if (velo <= 1) {
-				velo = 1.0;
+			if (velo <= 2) {
+				velo = 2.0;
 			}
-			if (velo < 6) {
+			if (velo < 8) {
 				velo += 0.02;
 			}
-			} else if (velo > 1) {
-				velo -= 0.02;
-			}
+		} else if (velo > 2) {
+			velo -= 0.02;
+		}
 		// Convert the heading to radians
 		double radians = Math.toRadians(heading);
 		// Calculate movement components for x and y based on velocity and heading
 		double moveX = Math.cos(radians) * velo; // Horizontal movement (right or left)
 		double moveY = Math.sin(radians) * velo; // Vertical movement (up or down)
 		// Update position based on velocity
-		if(velo > 1) {
+		if(velo > 2) {
 			worldX += moveX;
 			worldY += moveY;
 		}
@@ -147,5 +146,11 @@ public class Ship extends Entity {
 			}
 		}
 		gunCoolDown++;
+		// set hitbox
+	    solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 26, 26);
+	    //Collioion
+	    if(gp.cc.shipCollision(this)) {
+	    	System.out.println("Collision");
+	    }
 		}
 }

@@ -3,6 +3,7 @@ package entity;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
+import java.awt.Rectangle;
 import java.util.Random;
 
 import main.GamePanel;
@@ -12,6 +13,7 @@ public class Astroid extends Entity{
 	BufferedImage image = null;
 	GamePanel gp;
 	int stage;
+	int s;
 	Random rand = new Random();
 	
 	public Astroid(GamePanel gp, int x, int y, int stage) {
@@ -21,12 +23,16 @@ public class Astroid extends Entity{
 		worldY = y;
 		this.stage = stage;
 		heading = (double) rand.nextInt(360);
+		solidArea = new Rectangle(worldX, worldY, 5, 5);
 		if (stage == 0) {
-			v = 2;
+			v = 4;
+			s = 12;
 		} else if (stage == 1) {
-			v = rand.nextInt(2) + 2;
+			v = rand.nextInt(2) + 4;
+			s = rand.nextInt(4) + 18;
 		} else if (stage == 2) {
-			v = rand.nextInt(4) + 3;
+			v = rand.nextInt(4) + 4;
+			s = rand.nextInt(8) + 22;
 		}
 		velo = (double) v;
 	}
@@ -45,11 +51,19 @@ public class Astroid extends Entity{
 		if (worldX > gp.screenWidth) { worldX = 0; }
 		if (worldY < 0) { worldY = gp.screenHeight; }
 		if (worldY > gp.screenHeight) { worldY = 0; }
+		
+		// define hitbox
+		solidArea = new Rectangle(worldX, worldY, gp.screenWidth / s , gp.screenWidth / s);
 	}
 	
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.white);
-		g2.drawRect(worldX, worldY, gp.screenWidth / 12 , gp.screenWidth / 12);
+		if (stage == 1) {
+			g2.setColor(Color.red);
+		} else if (stage == 2) {
+			g2.setColor(Color.blue);
+		}
+		g2.drawRect(worldX, worldY, gp.screenWidth / s , gp.screenWidth / s);
 	}
 }
 
