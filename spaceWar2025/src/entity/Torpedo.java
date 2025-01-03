@@ -38,13 +38,15 @@ public class Torpedo extends Entity{
 		if(life > 0) {
 			g2.drawImage(image, worldX, worldY, 50, 50, null);
 		}
-	    if (solidArea != null) {
-	    	g2.setColor(Color.red);
-	    	g2.fill(solidArea); // Fills the rectangle
-	    	g2.draw(solidArea);
-	    } else {
-	        System.out.println("Solid area is null!");
-	    }
+		if(gp.debug) {
+		    if (solidArea != null) {
+		    	g2.setColor(Color.red);
+		    	g2.fill(solidArea); // Fills the rectangle
+	    		g2.draw(solidArea);
+	    	} else {
+	        	System.out.println("Solid area is null!");
+	    	}
+		}
 	}
 	
 	public void update() {

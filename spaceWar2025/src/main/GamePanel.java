@@ -23,8 +23,9 @@ public class GamePanel extends JPanel implements Runnable {
 	public final int screenWidth = shipSize * maxScreenColumn; //1700
 	public final int screenHeight = shipSize * maxScreenRow; //1000
 	
-	
 	public int FPS = 60;
+	
+	public boolean debug = false;
 	
 	KeyHandler keyH = new KeyHandler();  	
 	Thread gameThread;
@@ -78,19 +79,22 @@ public class GamePanel extends JPanel implements Runnable {
 				if(t[i].life <= 0) {t[i] = null;}
 			}
 		}
+		boolean empty = true;
 		for(int i = 0; i < a.length; i++) {
 			if(a[i] != null) {
 				a[i].update();
+				empty = false;
 			}
 		}
+		if(empty) { setupGame(); }
 	}
 	
 	public void setupGame() {
 		Random rand = new Random();
 		a[0] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0, 0);		
-		a[1] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 1, 1);		
-		a[2] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2, 2);		
-		a[3] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 2, 3);		
+		a[1] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0, 1);		
+		a[2] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0, 2);		
+		a[3] = new Astroid(this, rand.nextInt(screenWidth), rand.nextInt(screenHeight), 0, 3);		
 	}
 	
 	public void startGameThread() {

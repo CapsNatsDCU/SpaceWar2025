@@ -63,12 +63,14 @@ public class Ship extends Entity {
 		
 	    g2.drawImage(image, transform, null);
 	    
-	    if (solidArea != null) {
-	    	g2.setColor(Color.red);
-	    	g2.fill(solidArea); // Fills the rectangle
-	    	g2.draw(solidArea);
-	    } else {
-	        System.out.println("Solid area is null!");
+	    if(gp.debug){
+	    	if (solidArea != null) {
+		    	g2.setColor(Color.red);
+		    	g2.fill(solidArea); // Fills the rectangle
+		    	g2.draw(solidArea);
+		    } else {
+		        System.out.println("Solid area is null!");
+		    }
 	    }
 	}
 	
@@ -150,7 +152,7 @@ public class Ship extends Entity {
 	    solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 26, 26);
 	    //Collioion
 	    if(gp.cc.shipCollision(this)) {
-	    	//System.out.println("Collision");
+	    	System.out.println("Collision");
 	    }
 		}
 }

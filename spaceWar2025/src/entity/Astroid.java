@@ -60,10 +60,12 @@ public class Astroid extends Entity{
 	
 	public void draw(Graphics2D g2) {
 		g2.setColor(Color.white);
-		if (stage == 1) {
-			g2.setColor(Color.red);
-		} else if (stage == 2) {
-			g2.setColor(Color.blue);
+			if(gp.debug){
+				if (stage == 1) {
+				g2.setColor(Color.red);
+			} else if (stage == 2) {
+				g2.setColor(Color.blue);
+			}
 		}
 		g2.drawRect(worldX, worldY, gp.screenWidth / s , gp.screenWidth / s);
 	}
@@ -79,11 +81,19 @@ public class Astroid extends Entity{
 				newAss(2);
 			}
 		}
-		gp.a[index] = null;// will this crash??
+		gp.a[index] = null;
 	}
 	
 	private void newAss(int stage) {
-		gp.a[gp.a.length - 1] = new Astroid(gp, worldX, worldY, stage, gp.a.length - 1);
+		int index = 0;
+		for (int i = 0; i < gp.a.length; i++) {
+			if(gp.a[i] == null) {
+				index = i;
+				break;
+			}
+		}
+		gp.a[index] = new Astroid(gp, worldX, worldY, stage, index);
+		
 	}
 }
 
