@@ -8,7 +8,7 @@ import java.util.Random;
 
 import javax.swing.JPanel;
 import main.KeyHandler;
-
+import writing.Score;
 import entity.*;
 
 //import entity.Player;
@@ -27,7 +27,8 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public boolean debug = false;
 	
-	KeyHandler keyH = new KeyHandler();  	
+	KeyHandler keyH = new KeyHandler(); 
+	public Score score = new Score(this);
 	Thread gameThread;
 	public Torpedo[] t = new Torpedo[10];
 	public Astroid[] a = new Astroid[48];
@@ -42,9 +43,6 @@ public class GamePanel extends JPanel implements Runnable {
 	
 	public Ship ship = new Ship(this, keyH);
 	public CollisionChecker cc = new CollisionChecker(this);
-	//public AssetSetter aSetter = new AssetSetter(this);
-	//public Player player = new Player(this, keyH);
-	//public SuperObject obj[] = new SuperObject[10];
 
 	@Override
 	public void run() {
@@ -108,6 +106,7 @@ public class GamePanel extends JPanel implements Runnable {
 		
 		// ship
 		ship.draw(g2);
+		score.draw(g2);
 		
 		//torpedos
 		for(int i = 0; i < t.length; i++) {

@@ -73,13 +73,19 @@ public class Astroid extends Entity{
 	public void stageChange() {
 		//do something
 		if(stage == 0) {
-			newAss(1);
-			newAss(1);
+			for(int i = 0; i < 1 + rand.nextInt(3); i++) {
+				newAss(1);
+				gp.score.add(5);
+			}
 		}
 		if (stage == 1) {
 			for(int i = 0; i < 2 + rand.nextInt(3); i++) {
 				newAss(2);
+				gp.score.add(10);
 			}
+		}
+		if (stage == 2) {
+			gp.score.add(15);
 		}
 		gp.a[index] = null;
 	}

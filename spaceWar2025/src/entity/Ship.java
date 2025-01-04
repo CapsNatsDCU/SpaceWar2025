@@ -87,7 +87,7 @@ public class Ship extends Entity {
 	
 	public void update() {
 		// Accelerate when thrust is pressed
-		if (keyH.thrustPressed) {
+		if (keyH.thrustPressed) { 
 			if (velo <= 2) {
 				velo = 2.0;
 			}
@@ -131,7 +131,7 @@ public class Ship extends Entity {
 		hyperDriveCooldown++;
 		
 		// torpedo maker
-		if(keyH.firePressed) {
+		if(keyH.firePressed) { 
 			if(gunCoolDown > 25) {
 				int index = -1;
 				for(int i = 0; i < gp.t.length; i++) {
@@ -152,7 +152,7 @@ public class Ship extends Entity {
 	    solidArea = new Rectangle(worldX + solidAreaDefaultX, worldY + solidAreaDefaultY, 26, 26);
 	    //Collioion
 	    if(gp.cc.shipCollision(this)) {
-	    	System.out.println("Collision");
+	    	gp.score.add(-10);
 	    }
 		}
 }
