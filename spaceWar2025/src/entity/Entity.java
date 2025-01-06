@@ -8,7 +8,6 @@ public class Entity {
 	public int worldX, worldY;
 	public Double velo;
 	
-	
 	public Double heading;
 	
 	//not yet used

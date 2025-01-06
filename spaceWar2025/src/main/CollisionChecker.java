@@ -1,5 +1,7 @@
 package main;
 
+import java.awt.Rectangle;
+
 import entity.*;
 
 public class CollisionChecker {
@@ -11,21 +13,30 @@ public class CollisionChecker {
 	}
 	
 	public boolean shipCollision(Ship s) {
-//		for(int i = 0; i < gp.t.length; i++) {
-//			if(gp.t[i] != null) {
-//				if(s.solidArea.intersects(gp.t[i].solidArea)) {
-//					return true;
-//				}
-//			}
-//		}
 		for(int i = 0; i < gp.a.length; i++) {
 			if(gp.a[i] != null) {
 				if(s.solidArea.intersects(gp.a[i].solidArea)) {
+					gp.a[i] = null;
 					return true;
 				}
 			}
 		}
 		return false;
+	}
+	
+	public boolean isSpawnSafe() {
+		int safeArea = 100;
+		Rectangle spawn = new Rectangle((gp.screenWidth / 2) - (safeArea / 2), (gp.screenHeight / 2) + (safeArea / 2), safeArea, safeArea);
+		
+		for(int i = 0; i < gp.a.length; i++) {
+			if(gp.a[i] != null) {
+				if(spawn.intersects(gp.a[i].solidArea)) {
+					gp.a[i] = null;
+					return false;
+				}
+			}
+		}
+		return true;
 	}
 
 	public void astroidCollision() {
