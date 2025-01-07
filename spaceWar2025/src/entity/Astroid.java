@@ -2,9 +2,14 @@ package entity;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 import java.awt.Rectangle;
+import java.awt.geom.AffineTransform;
 import java.util.Random;
+
+import javax.imageio.ImageIO;
 
 import main.GamePanel;
 
@@ -15,6 +20,8 @@ public class Astroid extends Entity{
 	int stage;
 	int index;
 	int s;
+	int dimention;
+	double rotation;
 	Random rand = new Random();
 	
 	public Astroid(GamePanel gp, int x, int y, int stage, int index) {
@@ -26,17 +33,27 @@ public class Astroid extends Entity{
 		this.stage = stage;
 		heading = (double) rand.nextInt(360);
 		solidArea = new Rectangle(worldX, worldY, 5, 5);
+		rotation = rand.nextDouble(360.0);
 		if (stage == 0) {
 			v = 4;
-			s = 12;
+			s = 10;
 		} else if (stage == 1) {
 			v = rand.nextInt(2) + 4;
-			s = rand.nextInt(4) + 18;
+			s = rand.nextInt(4) + 16;
 		} else if (stage == 2) {
 			v = rand.nextInt(4) + 4;
-			s = rand.nextInt(8) + 22;
+			s = rand.nextInt(8) + 20;
 		}
 		velo = (double) v;
+		dimention = ((gp.screenWidth + gp.screenHeight) / 2) / s;
+		try {
+			System.out.println("looking for image" + dimention);
+			image = ImageIO.read(getClass().getResourceAsStream("/ship/ass0.png"));
+			image = scaleImage(image, dimention, dimention);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		System.out.println("new Ass dimention:" + dimention);
 	}
 		
 	public void update() {
@@ -49,16 +66,30 @@ public class Astroid extends Entity{
 		worldX += moveX;
 		worldY += moveY;
 		
+		rotation += 0.5;
+		
 		if (worldX < 0) { worldX = gp.screenWidth; }
 		if (worldX > gp.screenWidth) { worldX = 0; }
 		if (worldY < 0) { worldY = gp.screenHeight; }
 		if (worldY > gp.screenHeight) { worldY = 0; }
 		
 		// define hitbox
-		solidArea = new Rectangle(worldX, worldY, gp.screenWidth / s , gp.screenWidth / s);
+		solidArea = new Rectangle(worldX, worldY, dimention , dimention);
 	}
 	
 	public void draw(Graphics2D g2) {
+		
+		double angle = Math.toRadians(rotation); // Convert angle to radians
+
+		// Save the original transformation state
+		// Create a new AffineTransform for the rotation
+		AffineTransform transform = new AffineTransform();
+
+		// Move the origin to the center of the image, rotate, then move it back
+		transform.translate(worldX + 25, worldY + 25); // Move to center of the image
+		transform.rotate(angle); // Rotate by the angle
+		transform.translate(-25, -25); // Move it back to the top-left corner
+
 		g2.setColor(Color.white);
 			if(gp.debug){
 				if (stage == 1) {
@@ -67,7 +98,7 @@ public class Astroid extends Entity{
 				g2.setColor(Color.blue);
 			}
 		}
-		g2.drawRect(worldX, worldY, gp.screenWidth / s , gp.screenWidth / s);
+			g2.drawImage(image, transform, null);
 	}
 	
 	public void stageChange() {
@@ -99,7 +130,17 @@ public class Astroid extends Entity{
 			}
 		}
 		gp.a[index] = new Astroid(gp, worldX, worldY, stage, index);
-		
+	}
+	
+	public BufferedImage scaleImage(BufferedImage originalImage, int newWidth, int newHeight) {
+	    Image tmp = originalImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+	    BufferedImage scaledImage = new BufferedImage(newWidth, newHeight, originalImage.getType());
+
+	    Graphics2D g2d = scaledImage.createGraphics();
+	    g2d.drawImage(tmp, 0, 0, null);
+	    g2d.dispose();
+
+	    return scaledImage;
 	}
 }
 
