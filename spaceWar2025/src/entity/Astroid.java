@@ -47,13 +47,26 @@ public class Astroid extends Entity{
 		velo = (double) v;
 		dimention = ((gp.screenWidth + gp.screenHeight) / 2) / s;
 		try {
-			System.out.println("looking for image" + dimention);
-			image = ImageIO.read(getClass().getResourceAsStream("/ship/ass0.png"));
+			int assKind = rand.nextInt(3);
+	        switch (assKind) {
+            case 0:
+            	image = ImageIO.read(getClass().getResourceAsStream("/ship/ass0.png"));
+                break;
+            case 1:
+            	image = ImageIO.read(getClass().getResourceAsStream("/ship/ass1.png"));
+                break;
+            case 2:
+            	image = ImageIO.read(getClass().getResourceAsStream("/ship/ass2.png"));
+                break;
+            default:
+                System.out.println("Invalid assignment type.");
+                break;
+        }
+			
 			image = scaleImage(image, dimention, dimention);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		System.out.println("new Ass dimention:" + dimention);
 	}
 		
 	public void update() {
@@ -83,20 +96,24 @@ public class Astroid extends Entity{
 
 		// Save the original transformation state
 		// Create a new AffineTransform for the rotation
+		int halfDim = dimention / 2;
+		
 		AffineTransform transform = new AffineTransform();
 
 		// Move the origin to the center of the image, rotate, then move it back
-		transform.translate(worldX + 25, worldY + 25); // Move to center of the image
+		transform.translate(worldX + halfDim, worldY + halfDim); // Move to center of the image
 		transform.rotate(angle); // Rotate by the angle
-		transform.translate(-25, -25); // Move it back to the top-left corner
+		transform.translate(-halfDim, -halfDim); // Move it back to the top-left corner
 
 		g2.setColor(Color.white);
 			if(gp.debug){
-				if (stage == 1) {
-				g2.setColor(Color.red);
-			} else if (stage == 2) {
-				g2.setColor(Color.blue);
-			}
+				if (solidArea != null) {
+					g2.setColor(Color.red);
+					g2.fill(solidArea); // Fills the rectangle
+					g2.draw(solidArea);
+				} else {
+					System.out.println("Solid area is null!");
+				}
 		}
 			g2.drawImage(image, transform, null);
 	}
